@@ -1,16 +1,13 @@
-//use std::env;
-//use std::fs;
-
 // Pour lire le fichier en mode buffer
 use std::fs::File;
-use std::io::{self, BufReader,BufRead};
+use std::io::{BufReader,BufRead};
 use std::str;
 
 
 fn main() {
     println!("Lecture de texte.");
 
-    fonction_lecture();
+    lecture();
 }
 
 
@@ -48,47 +45,17 @@ ETIQUETTE espace VALEUR espace CHECKSUM
 
 Seules l’ETIQUETTE et la VALEUR nous seront utiles. La CHEKSUM, ou somme de contrôle sert uniquement à vérifier l’intégrité que la trame.
 
-
-
-
-
  */
 
-
-fn fonction_lecture() -> io::Result<()> {
-
-    // lecture du fichier d'exemple de la trame
-    let filename = File::open("ok.txt")?;
-
-
-    // boucle de parse
-
-    let reader = BufReader::new(filename);
-    let mut i = 0;
-
-    for vars in reader.split(b' ') {
-        //let mut i = i + 1;
-        let bytes = vars.unwrap();
-        let s = str::from_utf8(&bytes).unwrap();
-        println!("Ligne {} {}", s, i+1);
-
-        }
-
-
-
-/*    for (index, line) in reader.lines().enumerate() {
+fn lecture() {
+    let filename = "ok.txt";
+    // Open the file in read-only mode (ignoring errors).
+    let file = File::open(filename).unwrap();
+    let reader = BufReader::new(file);
+    // Read the file line by line using the lines() iterator from std::io::BufRead.
+    for (index, line) in reader.lines().enumerate() {
         let line = line.unwrap(); // Ignore errors.
         // Show the line and its number.
         println!("{}. {}", index + 1, line);
-    }
-    */
-
-
-
-/*    let contents = fs::read_to_string(filename)
-        .expect("Erreur de lecture du fichier.");
-    println!("Qui contient le texte :\n{}", contents); */
-
-    Ok(())
-
+        }
 }
